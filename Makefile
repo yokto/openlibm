@@ -14,6 +14,12 @@ endif
 endif
 endif
 
+ifeq ($(ARCH),amd64)
+    ZWOLF_ARCH := x86_64
+else
+    ZWOLF_ARCH := $(ARCH)
+endif
+
 define INC_template
 TEST=test
 override CUR_SRCS = $(1)_SRCS
@@ -46,7 +52,7 @@ else
 OLM_MAJOR_MINOR_SHLIB_EXT := $(SHLIB_EXT).$(SOMAJOR).$(SOMINOR)
 OLM_MAJOR_SHLIB_EXT := $(SHLIB_EXT).$(SOMAJOR)
 endif
-LDFLAGS_add += -Wl,$(SONAME_FLAG),libopenlibm.$(OLM_MAJOR_SHLIB_EXT)
+LDFLAGS_add += -Wl,$(SONAME_FLAG),xlibc/$(ZWOLF_ARCH)/lib/libm.so
 endif
 
 .PHONY: all check test clean distclean \
@@ -68,7 +74,7 @@ libopenlibm.a: $(OBJS)
 	$(AR) -rcs libopenlibm.a $(OBJS)
 
 libopenlibm.$(OLM_MAJOR_MINOR_SHLIB_EXT): $(OBJS)
-	$(CC) -shared $(OBJS) $(LDFLAGS) $(LDFLAGS_add) -o $@
+	$(CC) --shared $(OBJS) $(LDFLAGS) $(LDFLAGS_add) -o $@
 ifneq ($(OS),WINNT)
 	ln -sf $@ libopenlibm.$(OLM_MAJOR_SHLIB_EXT)
 	ln -sf $@ libopenlibm.$(SHLIB_EXT)
