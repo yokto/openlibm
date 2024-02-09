@@ -52,7 +52,7 @@ else
 OLM_MAJOR_MINOR_SHLIB_EXT := $(SHLIB_EXT).$(SOMAJOR).$(SOMINOR)
 OLM_MAJOR_SHLIB_EXT := $(SHLIB_EXT).$(SOMAJOR)
 endif
-LDFLAGS_add += -Wl,$(SONAME_FLAG),xlibc/$(ZWOLF_ARCH)/lib/libm.so
+LDFLAGS_add += -Wl,$(SONAME_FLAG),/${HOST_PREFIX}xlibc-$(ZWOLF_ARCH)/lib/libm.so
 endif
 
 .PHONY: all check test clean distclean \
